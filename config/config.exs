@@ -25,6 +25,22 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+config :oauth2,
+  serializers: %{
+      "application/vnd.api+json" => Jason,
+      "application/json" => Jason,
+    }
+
+#use ueberauth
+config :ueberauth, Ueberauth,
+  providers: [
+      github: { Ueberauth.Strategy.Github, [] }
+  ],
+  json_library: Jason
+
+config :ueberauth, Ueberauth.Strategy.Github.OAuth,
+  client_id: "eca1f01076539cb11b6c",
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
