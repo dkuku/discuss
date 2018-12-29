@@ -1,4 +1,3 @@
-
 defmodule DiscussWeb.TopicController do
   use DiscussWeb, :controller
   alias Plug
