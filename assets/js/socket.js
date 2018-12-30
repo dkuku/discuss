@@ -1,17 +1,8 @@
-// NOTE: The contents of this file will only be executed if
-// you uncomment its entry in "assets/js/app.js".
-
-// To use Phoenix channels, the first step is to import Socket,
-// and connect at the socket path in "lib/web/endpoint.ex".
-//
-// Pass the token on params as below. Or remove it
-// from the params if you are not using authentication.
 import {Socket} from "phoenix"
 
 let socket = new Socket("/socket", {params: {token: window.userToken}})
 
 socket.connect()
-
 
 const createSocket = () => {
   const topicId = window.location.pathname.split("/").pop()
@@ -34,20 +25,27 @@ const createSocket = () => {
 
 function renderComments(comments) {
   const renderedComments = comments.map(comment => {
-    return commentTemplate(comment.content)
+    return commentTemplate(comment)
   })
   document.querySelector('.collection').innerHTML = renderedComments.join('')
 }
 
 function renderComment(event) {
-  const renderedComment = commentTemplate(event.comment.content)
+  const renderedComment = commentTemplate(event.comment)
   document.querySelector('.collection').innerHTML += renderedComment
 }
 
-function commentTemplate(content) {
+function commentTemplate(comment) {
+  let email = 'Anonymous'
+  if (comment.user){
+    email = comment.user.email
+  }
   return `
       <li class="collection-item">
-        ${content}
+        ${comment.content}
+        <div class="secondary-content">
+          ${email}
+        </div>
       </li>
     `
 }
